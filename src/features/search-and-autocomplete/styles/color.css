@@ -1,0 +1,39 @@
+/* PRODUCT
+Luxury footwear across men's and women's collections.
+
+VISUAL DIRECTION
+Fashion / editorial luxury.
+
+SHOULD FEEL
+Fashion-forward
+Editorial
+Sophisticated
+Desirable
+Inclusive in range
+
+
+COLOR PRINCIPLE
+Restrained editorial foundation + controlled fashion accent.
+The palette should frame many different shoe colors rather than compete with them. */
+
+/* Warm editorial foundation with deep burgundy as the signature accent. */
+
+.feature {
+	/* Main page background — large areas of empty space, hero sections, page canvas */
+	--color-background: #faf9f7;
+
+	/* Primary content — headings, product names, prices, important text */
+	--color-text-primary: #171615;
+
+	/* Supporting content — descriptions, metadata, filters, secondary navigation */
+	--color-text-secondary: #77736f;
+
+	/* Subtle structure — dividers, input borders, understated card boundaries */
+	--color-border: #eae7e3;
+
+	/* Brand personality — selected states, important links, editorial accents, key actions */
+	--color-accent: #701f2b;
+
+	/* Text placed directly on the burgundy accent */
+	--color-accent-foreground: #ffffff;
+}
