@@ -11,7 +11,8 @@ export default function aboutPage() {
 			<div className="hidden border-b border-(--color-border) md:block" />
 
 			{/* Feature 01 */}
-			<div className="grid grid-cols-1 border-b border-(--color-border) md:col-span-4 md:grid-cols-3">
+			<div className="grid grid-cols-1 border-b border-(--color-border) md:col-span-4 md:grid-cols-3 lg:grid-cols-4">
+				<div className="hidden border-r border-(--color-border) lg:block" />
 				<div className="px-5 py-8 md:border-r md:px-8 md:py-12">
 					<div className="mb-4 flex gap-1">
 						<span className="h-2 w-2 rounded-full bg-(--color-accent)" />
@@ -39,7 +40,8 @@ export default function aboutPage() {
 			</div>
 
 			{/* Feature 02 */}
-			<div className="grid grid-cols-1 border-b border-(--color-border) md:col-span-4 md:grid-cols-3">
+			<div className="grid grid-cols-1 border-b border-(--color-border) md:col-span-4 md:grid-cols-3 lg:grid-cols-4">
+				<div className="hidden border-r border-(--color-border) lg:block" />
 				<div className="px-5 py-8 md:border-r md:px-8 md:py-12">
 					<div className="mb-4 flex gap-1">
 						<span className="h-2 w-2 rounded-full bg-(--color-accent)" />
@@ -67,7 +69,8 @@ export default function aboutPage() {
 			</div>
 
 			{/* Feature 03 */}
-			<div className="grid grid-cols-1 md:col-span-4 md:grid-cols-3">
+			<div className="grid grid-cols-1 md:col-span-4 md:grid-cols-3 lg:grid-cols-4">
+				<div className="hidden border-r border-(--color-border) lg:block" />
 				<div className="px-5 py-8 md:border-r md:px-8 md:py-12">
 					<div className="mb-4 flex gap-1">
 						<span className="h-2 w-2 rounded-full bg-(--color-accent)" />
