@@ -1,9 +1,11 @@
 import HeroPage from "./components/hero-page";
+import AboutPage from "./components/about-page";
 
 export default function SearchPage() {
 	return (
 		<main className="min-h-screen bg-(--color-background) text-(--color-text-primary) px-2 md:px-4 lg:px-10">
-			<HeroPage />{" "}
+			<HeroPage />
+			<AboutPage />
 			<section className="feature mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-8 py-20">
 				{" "}
 				<p className="mb-6 text-sm font-medium uppercase tracking-[0.2em] text-(--color-accent)">
@@ -69,7 +71,7 @@ export default function SearchPage() {
 					</div>{" "}
 				</div>{" "}
 			</section>{" "}
-			<section className="feature mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-8 py-20">
+			{/* <section className="feature mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-8 py-20">
 				{" "}
 				<p className="mb-6 text-sm font-medium uppercase tracking-[0.2em] text-(--color-accent)">
 					{" "}
@@ -133,7 +135,7 @@ export default function SearchPage() {
 						<p className="mt-2 text-sm">New arrivals</p>{" "}
 					</div>{" "}
 				</div>{" "}
-			</section>{" "}
+			</section>{" "} */}
 		</main>
 	);
 }
