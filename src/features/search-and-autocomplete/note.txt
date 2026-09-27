@@ -1,0 +1,9 @@
+grid structure
+
+<div className="grid h-screen grid-cols-4 grid-rows-4 border-2 border-blue-300">
+			{Array.from({ length: 16 }).map((_, index) => (
+				<div key={index} className="border border-blue-200">
+					{index + 1}
+				</div>
+			))}
+</div>

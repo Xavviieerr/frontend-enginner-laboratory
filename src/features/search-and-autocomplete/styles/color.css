@@ -18,22 +18,22 @@ The palette should frame many different shoe colors rather than compete with the
 
 /* Warm editorial foundation with deep burgundy as the signature accent. */
 
-.feature {
-	/* Main page background — large areas of empty space, hero sections, page canvas */
+:root {
+	/* Main page background */
 	--color-background: #faf9f7;
 
-	/* Primary content — headings, product names, prices, important text */
+	/* Primary content */
 	--color-text-primary: #171615;
 
-	/* Supporting content — descriptions, metadata, filters, secondary navigation */
+	/* Supporting content */
 	--color-text-secondary: #77736f;
 
-	/* Subtle structure — dividers, input borders, understated card boundaries */
+	/* Subtle structure */
 	--color-border: #eae7e3;
 
-	/* Brand personality — selected states, important links, editorial accents, key actions */
+	/* Brand personality */
 	--color-accent: #701f2b;
 
-	/* Text placed directly on the burgundy accent */
+	/* Text on accent */
 	--color-accent-foreground: #ffffff;
 }

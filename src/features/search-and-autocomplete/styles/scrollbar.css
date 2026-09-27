@@ -1,0 +1,20 @@
+html {
+	overflow-y: scroll;
+}
+
+html::-webkit-scrollbar {
+	width: 5px;
+}
+
+html::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+	background: var(--color-border);
+	border-radius: 999px;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+	background: var(--color-text-secondary);
+}
