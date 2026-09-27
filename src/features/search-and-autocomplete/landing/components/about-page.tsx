@@ -1,6 +1,9 @@
 export default function aboutPage() {
 	return (
-		<section className="grid grid-cols-1 border-t border-(--color-border) md:grid-cols-4">
+		<section
+			id="about"
+			className="grid grid-cols-1 border-t border-(--color-border) md:grid-cols-4"
+		>
 			{/* Core Features */}
 			<div className="border-b border-(--color-border) px-5 py-10 md:col-span-3 md:px-8 md:py-16">
 				<h2 className="font-display text-5xl font-medium tracking-[-0.04em] md:text-8xl">

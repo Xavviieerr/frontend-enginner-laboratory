@@ -7,7 +7,7 @@ import BrownHeels from "@/features/search-and-autocomplete/assets/image/brown-he
 
 export default function Heropage() {
 	return (
-		<div className=" h-auto flex flex-col py-5 gap-3">
+		<div id="home" className=" h-auto flex flex-col py-5 gap-3">
 			{/* hero top row */}
 			<div className="grid grid-cols-4">
 				<Logo />
@@ -19,21 +19,21 @@ export default function Heropage() {
 				</div>
 				<div className="flex flex-col items-end gap-4">
 					<a
-						href="#"
+						href="#home"
 						className="text-sm font-medium text-(--color-text-primary) underline decoration-(--color-border) underline-offset-8 transition-colors hover:text-(--color-accent)"
 					>
 						Home
 					</a>
 
 					<a
-						href="#"
+						href="#about"
 						className="text-sm font-medium text-(--color-text-primary) underline decoration-(--color-border) underline-offset-8 transition-colors hover:text-(--color-accent)"
 					>
 						About
 					</a>
 
 					<a
-						href="#"
+						href="#contact"
 						className="text-sm font-medium text-(--color-text-primary) underline decoration-(--color-border) underline-offset-8 transition-colors hover:text-(--color-accent)"
 					>
 						Contact

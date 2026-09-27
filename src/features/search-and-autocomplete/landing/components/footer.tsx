@@ -3,7 +3,10 @@ import BrownHeels from "@/features/search-and-autocomplete/assets/image/brown-he
 
 export default function Footer() {
 	return (
-		<footer className="bg-(--color-text-primary) text-(--color-background)">
+		<footer
+			id="contact"
+			className="bg-(--color-text-primary) text-(--color-background)"
+		>
 			<div className="grid grid-cols-1 md:grid-cols-4">
 				{/* Row 1 — Heading */}
 				<div className="border-b border-white/15 px-5 py-10 md:col-span-3 md:px-8 md:py-16">
@@ -23,19 +26,19 @@ export default function Footer() {
 
 						<nav className="flex flex-col items-start gap-1 md:items-end">
 							<a
-								href="/search-and-autocomplete"
+								href="#home"
 								className="text-sm transition-opacity hover:opacity-60"
 							>
 								Home
 							</a>
 							<a
-								href="#"
+								href="#about"
 								className="text-sm transition-opacity hover:opacity-60"
 							>
 								About
 							</a>
 							<a
-								href="#"
+								href="#contact"
 								className="text-sm transition-opacity hover:opacity-60"
 							>
 								Contact
@@ -56,7 +59,7 @@ export default function Footer() {
 							href="mailto:hello@northstar.com"
 							className="text-sm transition-opacity hover:opacity-60"
 						>
-							hello@northstar.com
+							ogbupaul545@gmail.com
 						</a>
 					</div>
 				</div>
@@ -72,13 +75,17 @@ export default function Footer() {
 
 						<div className="flex flex-col items-start gap-1 md:items-end">
 							<a
-								href="#"
+								href="https://github.com/Xavviieerr"
+								target="_blank"
+								rel="noopener noreferrer"
 								className="text-sm transition-opacity hover:opacity-60"
 							>
 								GitHub
 							</a>
 							<a
-								href="#"
+								href="https://www.linkedin.com/in/chidera-paul-ogbu"
+								target="_blank"
+								rel="noopener noreferrer"
 								className="text-sm transition-opacity hover:opacity-60"
 							>
 								LinkedIn
