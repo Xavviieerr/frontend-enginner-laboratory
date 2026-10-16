@@ -2,21 +2,31 @@ import { ProductSearchResponse } from "../types/search";
 
 const PRODUCTS_API_URL = "https://dummyjson.com/products/search";
 
-export async function searchProducts(
-	query: string,
-	signal?: AbortSignal,
-): Promise<ProductSearchResponse> {
-	const url = new URL(PRODUCTS_API_URL);
+type SearchProductsOptions = {
+  query: string;
+  skip: number;
+  limit: number;
+  signal?: AbortSignal;
+};
 
-	url.searchParams.set("q", query);
+export async function searchProducts({
+  query,
+  signal,
+  skip,
+  limit,
+}: SearchProductsOptions): Promise<ProductSearchResponse> {
+  const url = new URL(PRODUCTS_API_URL);
 
-	const response = await fetch(url, {
-		signal,
-	});
+  url.searchParams.set("q", query);
+  url.searchParams.set("skip", String(skip));
+  url.searchParams.set("limit", String(limit));
+  const response = await fetch(url, {
+    signal,
+  });
 
-	if (!response.ok) {
-		throw new Error("Failed to search products");
-	}
+  if (!response.ok) {
+    throw new Error("Failed to search products");
+  }
 
-	return response.json();
+  return response.json();
 }
