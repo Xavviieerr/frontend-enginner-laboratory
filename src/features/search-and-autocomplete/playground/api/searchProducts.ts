@@ -1,4 +1,5 @@
 import { ProductSearchResponse } from "../types/search";
+import { getCachedSearch, setCachedSearch } from "./searchCache";
 
 const PRODUCTS_API_URL = "https://dummyjson.com/products";
 
@@ -17,6 +18,7 @@ export async function searchProducts({
   category,
   limit,
 }: SearchProductsOptions): Promise<ProductSearchResponse> {
+  //url preparation
   const normalizedQuery = query.trim();
   let url: URL;
 
@@ -36,6 +38,15 @@ export async function searchProducts({
     url.searchParams.set("limit", String(limit));
   }
 
+  //check if it exists in cache
+  const cacheKey = url.toString();
+  const cachedData = getCachedSearch(cacheKey);
+
+  if (cachedData) {
+    return cachedData;
+  }
+
+  //fetch request
   const response = await fetch(url, {
     signal,
   });
@@ -44,5 +55,9 @@ export async function searchProducts({
     throw new Error("Failed to search products");
   }
 
-  return response.json();
+  const data: ProductSearchResponse = await response.json();
+
+  setCachedSearch(cacheKey, data);
+
+  return data;
 }
