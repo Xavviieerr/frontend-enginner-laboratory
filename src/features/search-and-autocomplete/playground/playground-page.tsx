@@ -6,6 +6,7 @@ import SearchInput from "./components/SearchInput";
 import { useProductSearch } from "./hooks/useProductSearch";
 import SearchSuggestions from "./components/SearchSuggestions";
 import SearchResult from "./components/SearchResult";
+import { getProductCategories } from "./api/getProductCategories";
 
 export default function SearchPlayground() {
   const searchParams = useSearchParams();
@@ -18,12 +19,55 @@ export default function SearchPlayground() {
     Number.isInteger(parsedPage) && parsedPage > 0 ? parsedPage : 1;
   const [query, setQuery] = useState(initialQuery);
   const [page, setPage] = useState(initialPage);
-  const { products, status, error, pagination } = useProductSearch(query, page);
+
+  const [categories, setCategories] = useState<string[]>([]);
+  const initialCategory = searchParams.get("category") ?? "";
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+
+  const [categoriesStatus, setCategoriesStatus] = useState<
+    "loading" | "success" | "error"
+  >("loading");
+  const [categoriesError, setCategoriesError] = useState<string | null>(null);
+  const { products, status, error, pagination } = useProductSearch(
+    query,
+    page,
+    selectedCategory,
+  );
   const suggestions = products.map((product) => product.title);
   const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null);
   const [isSuggestionsOpen, setIsSuggestionsOpen] = useState(false);
   const totalPages =
     pagination.limit > 0 ? Math.ceil(pagination.total / pagination.limit) : 0;
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    async function loadCategories() {
+      try {
+        const result = await getProductCategories(controller.signal);
+
+        setCategories(result);
+        setCategoriesStatus("success");
+      } catch (error) {
+        if (controller.signal.aborted) {
+          return;
+        }
+
+        setCategoriesError(
+          error instanceof Error
+            ? error.message
+            : "Failed to fetch product categories",
+        );
+        setCategoriesStatus("error");
+      }
+    }
+
+    void loadCategories();
+
+    return () => {
+      controller.abort();
+    };
+  }, []);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "ArrowDown") {
@@ -78,7 +122,7 @@ export default function SearchPlayground() {
   const handleQueryChange = (value: string) => {
     setQuery(value);
     setPage(1);
-    updateUrl(value, 1);
+    updateUrl(value, 1, selectedCategory);
     setIsSuggestionsOpen(true);
     setHighlightedIndex(null);
   };
@@ -97,7 +141,7 @@ export default function SearchPlayground() {
   const handleSelectSuggestion = (suggestion: string) => {
     setQuery(suggestion);
     setPage(1);
-    updateUrl(suggestion, 1);
+    updateUrl(suggestion, 1, selectedCategory);
     setIsSuggestionsOpen(false);
     setHighlightedIndex(null);
   };
@@ -106,18 +150,22 @@ export default function SearchPlayground() {
     const nextPage = Math.max(page - 1, 1);
 
     setPage(nextPage);
-    updateUrl(query, nextPage);
+    updateUrl(query, nextPage, selectedCategory);
   };
 
   const handleNextPage = () => {
     const nextPage = Math.min(page + 1, totalPages);
 
     setPage(nextPage);
-    updateUrl(query, nextPage);
+    updateUrl(query, nextPage, selectedCategory);
   };
 
   //helper
-  const updateUrl = (nextQuery: string, nextPage: number) => {
+  const updateUrl = (
+    nextQuery: string,
+    nextPage: number,
+    nextCategory: string,
+  ) => {
     const params = new URLSearchParams(searchParams.toString());
 
     if (nextQuery.trim()) {
@@ -132,6 +180,12 @@ export default function SearchPlayground() {
       params.delete("page");
     }
 
+    if (nextCategory) {
+      params.set("category", nextCategory);
+    } else {
+      params.delete("category");
+    }
+
     const queryString = params.toString();
     const url = queryString ? `${pathname}?${queryString}` : pathname;
 
@@ -141,6 +195,35 @@ export default function SearchPlayground() {
   return (
     <div className="">
       <h1>welcome to the search and autocomplete playground</h1>
+      <div>
+        <label htmlFor="product-category">Category</label>
+
+        {categoriesStatus === "loading" && <p>Loading categories...</p>}
+
+        {categoriesStatus === "error" && <p role="alert">{categoriesError}</p>}
+
+        <select
+          id="product-category"
+          value={selectedCategory}
+          onChange={(event) => {
+            const nextCategory = event.target.value;
+
+            setSelectedCategory(nextCategory);
+            setPage(1);
+            updateUrl(query, 1, nextCategory);
+          }}
+          disabled={categoriesStatus !== "success"}
+        >
+          <option value="">All categories</option>
+
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <SearchInput
         query={query}
         onQueryChange={handleQueryChange}

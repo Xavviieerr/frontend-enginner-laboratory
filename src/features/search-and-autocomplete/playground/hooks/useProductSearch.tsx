@@ -10,7 +10,7 @@ type Pagination = {
   limit: number;
 };
 
-export function useProductSearch(query: string, page: number) {
+export function useProductSearch(query: string, page: number, category = "") {
   const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<SearchStatus>("idle");
@@ -22,45 +22,85 @@ export function useProductSearch(query: string, page: number) {
   const SEARCH_PAGE_LIMIT = 5;
 
   useEffect(() => {
-    const validate = searchQuerySchema.safeParse(query);
+    const normalizedQuery = query.trim();
+    const hasCategory = category !== "";
 
-    if (!validate.success) {
+    if (!normalizedQuery && !hasCategory) {
       setProducts([]);
+      setPagination({
+        total: 0,
+        skip: 0,
+        limit: SEARCH_PAGE_LIMIT,
+      });
       setStatus("idle");
       setError(null);
       return;
     }
 
-    const validQuery = validate.data;
-    const limit = SEARCH_PAGE_LIMIT;
-    const skip = (page - 1) * limit;
+    const validation = normalizedQuery
+      ? searchQuerySchema.safeParse(normalizedQuery)
+      : null;
+
+    if (validation && !validation.success) {
+      setProducts([]);
+      setPagination({
+        total: 0,
+        skip: 0,
+        limit: SEARCH_PAGE_LIMIT,
+      });
+      setStatus("idle");
+      setError(null);
+      return;
+    }
+
+    const validQuery = validation?.success ? validation.data : "";
+    const skip = (page - 1) * SEARCH_PAGE_LIMIT;
     const controller = new AbortController();
     let isActive = true;
 
     const timer = setTimeout(() => {
       setStatus("loading");
       setError(null);
+
       searchProducts({
         query: validQuery,
-        skip,
-        limit,
+        category: hasCategory ? category : "",
+        skip: hasCategory ? 0 : skip,
+        limit: hasCategory ? 0 : SEARCH_PAGE_LIMIT,
         signal: controller.signal,
       })
         .then((data) => {
           if (!isActive) return;
-          setProducts(data.products);
+
+          let matchingProducts = data.products;
+
+          if (hasCategory && validQuery) {
+            matchingProducts = matchingProducts.filter(
+              (product) => product.category === category,
+            );
+          }
+
+          const total = hasCategory ? matchingProducts.length : data.total;
+
+          const pageProducts = hasCategory
+            ? matchingProducts.slice(skip, skip + SEARCH_PAGE_LIMIT)
+            : matchingProducts;
+
+          setProducts(pageProducts);
           setPagination({
-            total: data.total,
-            skip: data.skip,
-            limit: data.limit,
+            total,
+            skip,
+            limit: SEARCH_PAGE_LIMIT,
           });
           setStatus("success");
         })
-        .catch((error) => {
+        .catch((error: unknown) => {
           if (!isActive) return;
-          if (error instanceof DOMException && error.name === "AbortError") {
+
+          if (error instanceof Error && error.name === "AbortError") {
             return;
           }
+
           setStatus("error");
           setError(
             error instanceof Error ? error.message : "Something went wrong",
@@ -72,7 +112,7 @@ export function useProductSearch(query: string, page: number) {
       clearTimeout(timer);
       controller.abort();
     };
-  }, [query, page]);
+  }, [query, page, category]);
 
   return {
     products,
