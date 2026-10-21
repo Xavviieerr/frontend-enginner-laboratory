@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { SearchStatus } from "../types/search";
-import { Product } from "../types/search";
+import type { SearchStatus, Product } from "../types/search";
 import { searchQuerySchema } from "../validation/search";
 import { searchProducts } from "../api/searchProducts";
 
@@ -9,6 +8,8 @@ type Pagination = {
   skip: number;
   limit: number;
 };
+
+const SEARCH_PAGE_LIMIT = 5;
 
 export function useProductSearch(query: string, page: number, category = "") {
   const [products, setProducts] = useState<Product[]>([]);
@@ -19,7 +20,6 @@ export function useProductSearch(query: string, page: number, category = "") {
     skip: 0,
     limit: 0,
   });
-  const SEARCH_PAGE_LIMIT = 5;
 
   useEffect(() => {
     const normalizedQuery = query.trim();
@@ -100,11 +100,15 @@ export function useProductSearch(query: string, page: number, category = "") {
           if (error instanceof Error && error.name === "AbortError") {
             return;
           }
+          setProducts([]);
+          setPagination({
+            total: 0,
+            skip: 0,
+            limit: SEARCH_PAGE_LIMIT,
+          });
 
           setStatus("error");
-          setError(
-            error instanceof Error ? error.message : "Something went wrong",
-          );
+          setError("Unable to load products. Please try again.");
         });
     }, 500);
     return () => {
