@@ -7,6 +7,30 @@ export type ProductPage = {
   pagination: Pagination;
 };
 
+export function filterProductsByQuery(
+  products: Product[],
+  query: string,
+): Product[] {
+  const normalizedQuery = query.trim().toLowerCase();
+
+  if (!normalizedQuery) {
+    return products;
+  }
+
+  return products.filter((product) => {
+    const searchableText = [
+      product.title,
+      product.description,
+      product.brand ?? "",
+      ...(product.tags ?? []),
+    ]
+      .join(" ")
+      .toLowerCase();
+
+    return searchableText.includes(normalizedQuery);
+  });
+}
+
 export function filterProductsByCategory(
   products: Product[],
   category: string,
@@ -34,15 +58,22 @@ export function paginateProducts(
   };
 }
 
+export type SelectProductsOptions = {
+  category?: string;
+  query?: string;
+};
+
 export function selectProducts(
   products: Product[],
   page: number,
-  category = "",
+  { category = "", query = "" }: SelectProductsOptions = {},
 ): ProductPage {
-  return paginateProducts(
+  const matchingProducts = filterProductsByQuery(
     filterProductsByCategory(products, category),
-    page,
+    query,
   );
+
+  return paginateProducts(matchingProducts, page);
 }
 
 export function getTotalPages(total: number, limit: number): number {

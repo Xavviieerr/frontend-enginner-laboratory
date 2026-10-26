@@ -7,6 +7,7 @@ export interface Product {
   discountPercentage: number;
   rating: number;
   brand?: string;
+  tags?: string[];
   images: string[];
   thumbnail: string;
 }

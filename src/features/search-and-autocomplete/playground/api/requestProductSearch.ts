@@ -17,6 +17,9 @@ function isProduct(data: unknown): data is Product {
     typeof product.discountPercentage === "number" &&
     typeof product.rating === "number" &&
     (product.brand === undefined || typeof product.brand === "string") &&
+    (product.tags === undefined ||
+      (Array.isArray(product.tags) &&
+        product.tags.every((tag) => typeof tag === "string"))) &&
     Array.isArray(product.images) &&
     product.images.every((image) => typeof image === "string") &&
     typeof product.thumbnail === "string"

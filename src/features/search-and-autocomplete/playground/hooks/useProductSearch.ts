@@ -102,21 +102,13 @@ export function useProductSearch(query: string, page: number, category = "") {
 
     async function loadPage(): Promise<ProductPage> {
       if (hasCategory) {
-        if (validQuery) {
-          // DummyJSON has no combined endpoint: search globally, then filter by category.
-          const data = await searchProducts({
-            query: validQuery,
-            skip: 0,
-            limit: 0,
-            signal: controller.signal,
-          });
-
-          return selectProducts(data.products, page, category);
-        }
-
+        // DummyJSON's category endpoint ignores q, so filter the category locally.
         const data = await getProductsByCategory(category, controller.signal);
 
-        return selectProducts(data.products, page);
+        return selectProducts(data.products, page, {
+          category,
+          query: validQuery,
+        });
       }
 
       const data = await searchProducts({

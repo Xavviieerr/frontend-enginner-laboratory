@@ -19,12 +19,7 @@ export async function searchProducts({
   const url = new URL(PRODUCT_SEARCH_URL);
 
   url.searchParams.set("q", query.trim());
-
-  // All-results requests (limit=0) omit skip so each query has one cache entry.
-  if (limit > 0) {
-    url.searchParams.set("skip", String(skip));
-  }
-
+  url.searchParams.set("skip", String(skip));
   url.searchParams.set("limit", String(limit));
 
   return requestProductSearch(url, signal);
