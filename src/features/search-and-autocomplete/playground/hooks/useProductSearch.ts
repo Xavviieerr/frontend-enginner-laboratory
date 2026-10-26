@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useReducer } from "react";
+import { getProducts } from "../api/getProducts";
 import { getProductsByCategory } from "../api/getProductsByCategory";
 import { searchProducts } from "../api/searchProducts";
 import type { Pagination, Product, SearchStatus } from "../types/search";
@@ -86,12 +87,10 @@ export function useProductSearch(query: string, page: number, category = "") {
     ? searchQuerySchema.safeParse(normalizedQuery)
     : null;
   const validQuery = validation?.success ? validation.data : "";
-  const isIdle =
-    (!normalizedQuery && !hasCategory) ||
-    (validation !== null && !validation.success);
+  const isInvalidQuery = validation !== null && !validation.success;
 
   useEffect(() => {
-    if (isIdle) {
+    if (isInvalidQuery) {
       dispatch({ type: "reset" });
       return;
     }
@@ -111,8 +110,24 @@ export function useProductSearch(query: string, page: number, category = "") {
         });
       }
 
-      const data = await searchProducts({
-        query: validQuery,
+      if (validQuery) {
+        const data = await searchProducts({
+          query: validQuery,
+          skip,
+          limit: SEARCH_PAGE_LIMIT,
+          signal: controller.signal,
+        });
+
+        return {
+          products: data.products,
+          pagination: {
+            total: data.total,
+            limit: SEARCH_PAGE_LIMIT,
+          },
+        };
+      }
+
+      const data = await getProducts({
         skip,
         limit: SEARCH_PAGE_LIMIT,
         signal: controller.signal,
@@ -127,9 +142,9 @@ export function useProductSearch(query: string, page: number, category = "") {
       };
     }
 
-    const timer = window.setTimeout(() => {
-      dispatch({ type: "loading" });
+    dispatch({ type: "loading" });
 
+    const timer = window.setTimeout(() => {
       void loadPage()
         .then((pageResult) => {
           if (!isActive) {
@@ -160,7 +175,7 @@ export function useProductSearch(query: string, page: number, category = "") {
       window.clearTimeout(timer);
       controller.abort();
     };
-  }, [category, hasCategory, isIdle, page, query, validQuery]);
+  }, [category, hasCategory, isInvalidQuery, page, validQuery]);
 
   return result;
 }
