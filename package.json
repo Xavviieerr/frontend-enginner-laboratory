@@ -2,11 +2,13 @@
 	"name": "frontend-enginner-laboratory",
 	"version": "0.1.0",
 	"private": true,
+	"type": "module",
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "eslint"
+		"lint": "eslint",
+		"test": "node --test src/features/search-and-autocomplete/playground/utils/searchParams.test.mjs src/features/search-and-autocomplete/playground/utils/selectProducts.test.mjs"
 	},
 	"dependencies": {
 		"next": "^16.3.8",

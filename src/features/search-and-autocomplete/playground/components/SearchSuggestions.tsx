@@ -1,6 +1,4 @@
-import { useState } from "react";
-
-type searchsuggestionProps = {
+type SearchSuggestionsProps = {
   suggestions: string[];
   onSelect: (suggestion: string) => void;
   highlightedIndex: number | null;
@@ -12,7 +10,7 @@ export default function SearchSuggestions({
   onSelect,
   highlightedIndex,
   isOpen,
-}: searchsuggestionProps) {
+}: SearchSuggestionsProps) {
   if (!isOpen || suggestions.length === 0) {
     return null;
   }

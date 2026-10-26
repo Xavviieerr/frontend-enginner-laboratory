@@ -1,5 +1,10 @@
+import { Suspense } from "react";
 import { PlaygroundPage } from "@/features/search-and-autocomplete";
 
 export default function Page() {
-	return <PlaygroundPage />;
+  return (
+    <Suspense fallback={null}>
+      <PlaygroundPage />
+    </Suspense>
+  );
 }

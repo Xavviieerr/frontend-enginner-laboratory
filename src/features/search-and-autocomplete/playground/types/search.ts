@@ -18,4 +18,9 @@ export interface ProductSearchResponse {
   limit: number;
 }
 
+export type Pagination = {
+  total: number;
+  limit: number;
+};
+
 export type SearchStatus = "idle" | "loading" | "success" | "error";
