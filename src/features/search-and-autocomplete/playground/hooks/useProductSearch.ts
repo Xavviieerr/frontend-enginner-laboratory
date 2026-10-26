@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useReducer } from "react";
+import { useCallback, useEffect, useReducer, useState } from "react";
 import { getProducts } from "../api/getProducts";
 import { getProductsByCategory } from "../api/getProductsByCategory";
 import { searchProducts } from "../api/searchProducts";
@@ -73,13 +73,17 @@ function searchResultReducer(
         products: [],
         pagination: EMPTY_PAGINATION,
         status: "error",
-        error: "Unable to load products. Please try again.",
+        error: "The collection could not be loaded.",
       };
   }
 }
 
 export function useProductSearch(query: string, page: number, category = "") {
   const [result, dispatch] = useReducer(searchResultReducer, INITIAL_STATE);
+  const [retryKey, setRetryKey] = useState(0);
+  const retry = useCallback(() => {
+    setRetryKey((currentKey) => currentKey + 1);
+  }, []);
 
   const normalizedQuery = query.trim();
   const hasCategory = category !== "";
@@ -175,7 +179,7 @@ export function useProductSearch(query: string, page: number, category = "") {
       window.clearTimeout(timer);
       controller.abort();
     };
-  }, [category, hasCategory, isInvalidQuery, page, validQuery]);
+  }, [category, hasCategory, isInvalidQuery, page, retryKey, validQuery]);
 
-  return result;
+  return { ...result, retry };
 }

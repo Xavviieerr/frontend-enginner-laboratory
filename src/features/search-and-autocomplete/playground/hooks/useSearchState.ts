@@ -86,10 +86,19 @@ export function useSearchState() {
     [updateSearchState],
   );
 
+  const clearSearch = useCallback(() => {
+    if (!stateRef.current.query && !stateRef.current.category) {
+      return;
+    }
+
+    updateSearchState({ query: "", page: 1, category: "" }, "push");
+  }, [updateSearchState]);
+
   return {
     ...state,
     setQuery,
     setCategory,
     setPage,
+    clearSearch,
   };
 }

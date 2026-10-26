@@ -16,10 +16,20 @@ function isProduct(data: unknown): data is Product {
     typeof product.price === "number" &&
     typeof product.discountPercentage === "number" &&
     typeof product.rating === "number" &&
+    (product.stock === undefined || typeof product.stock === "number") &&
     (product.brand === undefined || typeof product.brand === "string") &&
+    (product.sku === undefined || typeof product.sku === "string") &&
     (product.tags === undefined ||
       (Array.isArray(product.tags) &&
         product.tags.every((tag) => typeof tag === "string"))) &&
+    (product.warrantyInformation === undefined ||
+      typeof product.warrantyInformation === "string") &&
+    (product.shippingInformation === undefined ||
+      typeof product.shippingInformation === "string") &&
+    (product.availabilityStatus === undefined ||
+      typeof product.availabilityStatus === "string") &&
+    (product.minimumOrderQuantity === undefined ||
+      typeof product.minimumOrderQuantity === "number") &&
     Array.isArray(product.images) &&
     product.images.every((image) => typeof image === "string") &&
     typeof product.thumbnail === "string"

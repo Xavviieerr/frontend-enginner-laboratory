@@ -43,6 +43,12 @@ export function useAutocomplete({
     [onQueryChange],
   );
 
+  const handleClear = useCallback(() => {
+    onQueryChange("");
+    setIsOpen(false);
+    setHighlightedIndex(null);
+  }, [onQueryChange]);
+
   const handleKeyDown = useCallback(
     (event: KeyboardEvent<HTMLInputElement>) => {
       if (event.key === "ArrowDown") {
@@ -67,6 +73,10 @@ export function useAutocomplete({
         event.preventDefault();
 
         setHighlightedIndex((currentIndex) => {
+          if (suggestions.length === 0) {
+            return null;
+          }
+
           if (currentIndex === null) {
             return suggestions.length - 1;
           }
@@ -104,8 +114,9 @@ export function useAutocomplete({
 
   return {
     highlightedIndex,
-    isOpen,
+    isOpen: isOpen && suggestions.length > 0,
     handleBlur,
+    handleClear,
     handleFocus,
     handleKeyDown,
     handleQueryChange,

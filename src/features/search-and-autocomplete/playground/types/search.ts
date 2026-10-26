@@ -6,8 +6,14 @@ export interface Product {
   price: number;
   discountPercentage: number;
   rating: number;
+  stock?: number;
   brand?: string;
+  sku?: string;
   tags?: string[];
+  warrantyInformation?: string;
+  shippingInformation?: string;
+  availabilityStatus?: string;
+  minimumOrderQuantity?: number;
   images: string[];
   thumbnail: string;
 }

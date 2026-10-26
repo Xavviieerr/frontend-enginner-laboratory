@@ -22,14 +22,19 @@ The palette should frame many different shoe colors rather than compete with the
 	/* Main page background */
 	--color-background: #faf9f7;
 
+	/* Product and control surfaces */
+	--color-surface: #f1ece5;
+	--color-surface-strong: #e8e1d8;
+
 	/* Primary content */
 	--color-text-primary: #171615;
 
 	/* Supporting content */
-	--color-text-secondary: #77736f;
+	--color-text-secondary: #6d6965;
 
 	/* Subtle structure */
 	--color-border: #eae7e3;
+	--color-border-strong: #d8d0c6;
 
 	/* Brand personality */
 	--color-accent: #701f2b;
