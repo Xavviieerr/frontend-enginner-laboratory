@@ -10,7 +10,7 @@ import {
 } from "../journal-content";
 
 const checks = [
-	"pnpm exec tsc --noEmit",
+	"pnpm typecheck",
 	"pnpm lint",
 	"pnpm test",
 	"pnpm build",

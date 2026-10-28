@@ -208,8 +208,8 @@ Open `http://localhost:3000/search-and-autocomplete` for the cover, `http://loca
 
 ```bash
 pnpm lint
+pnpm typecheck
 pnpm test
-pnpm exec tsc --noEmit
 pnpm build
 pnpm start
 ```
