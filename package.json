@@ -9,7 +9,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "next typegen && tsc --noEmit",
     "test": "node --test src/features/search-and-autocomplete/playground/utils/searchParams.test.mjs src/features/search-and-autocomplete/playground/utils/selectProducts.test.mjs src/features/search-and-autocomplete/playground/utils/formatProduct.test.mjs"
   },
   "dependencies": {
