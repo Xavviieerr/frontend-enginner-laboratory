@@ -58,6 +58,12 @@ export default function Footer() {
 								>
 									The archive
 								</Link>
+								<Link
+									href="/search-and-autocomplete/journal"
+									className={footerLinkClassName}
+								>
+									Journal
+								</Link>
 								<a href="#about" className={footerLinkClassName}>
 									About
 								</a>

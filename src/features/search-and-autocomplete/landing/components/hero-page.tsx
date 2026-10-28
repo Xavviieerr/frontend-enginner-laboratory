@@ -57,6 +57,12 @@ export default function HeroPage() {
 						>
 							The archive
 						</Link>
+						<Link
+							href="/search-and-autocomplete/journal"
+							className={navigationLinkClassName}
+						>
+							Journal
+						</Link>
 						<a href="#about" className={navigationLinkClassName}>
 							About
 						</a>

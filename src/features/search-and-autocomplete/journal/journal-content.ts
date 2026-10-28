@@ -140,7 +140,7 @@ export const manualChecks: ManualCheck[] = [
 	},
 	{
 		scenario: "Out-of-range page",
-		method: "Opened ?q=red&page=99 directly.",
+		method: "Loaded ?q=red&page=99 directly in a new tab.",
 		observed:
 			"The out-of-range state explained that the edition had four pages and offered a return to page 01.",
 	},
